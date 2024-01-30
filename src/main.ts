@@ -6,7 +6,7 @@ import { MongoClient } from "./database/mongo";
 import { MongoCreateUserRepository } from "./repositories/create-user/mongo-create-user";
 import { CreateUserController } from "./controllers/create-user/create-user";
 
-const main = async () => {
+export const main = async () => {
   config();
 
   const app = express();
@@ -28,20 +28,16 @@ const main = async () => {
   app.post("/users", async (req, res) => {
     const mongoCreateUserRepository = new MongoCreateUserRepository();
 
-    const createUserController = new CreateUserController(
-        mongoCreateUserRepository
-        );
+    const createUserController = new CreateUserController();
 
     const { body, statusCode } = await createUserController.handle({
       body: req.body,
     });
 
-    res.status(statusCode).send(body);
+    res.send(body).status(statusCode);
   });
 
   const port = process.env.PORT || 8000;
 
   app.listen(port, () => console.log(`listening on Port ${port}`));
 };
-
-main();

@@ -23,3 +23,5 @@ export class DeleteUserController implements IController {
     }
   }
 }
+export { IDeleteUserRepository };
+
